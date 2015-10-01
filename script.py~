@@ -21,7 +21,6 @@ def getTracks(playlist):
 def downloadTrack(tracks):
 	for track in tracks:
 		if track['downloadable'] == True:
-			track_id = str(track['id'])
 			track_title = str(track['title']) + '.mp3' 
 			dl_url = str(track['uri'])  + '/download?client_id=' + CLIENT_ID
 			urllib.urlretrieve(dl_url, track_title)
