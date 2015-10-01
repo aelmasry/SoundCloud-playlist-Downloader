@@ -1,5 +1,4 @@
-import soundcloud
-
+import soundcloud, urllib
 # client id from registerd app YOU HAVE TO GET YOUR OWN FROM SOUNDCLOUD
 CLIENT_ID ="b137996e08ffa19401924bd787ba8470"
 PLAYLIST_URL = 'https://soundcloud.com/admiralmoha/sets/arabic'
@@ -19,6 +18,17 @@ def getTracks(playlist):
 	tracks = playlist.tracks
 	return tracks
 
+def downloadTrack(tracks):
+	for track in tracks:
+		if track['downloadable'] == True:
+			track_id = str(track['id'])
+			track_title = str(track['title']) + '.mp3' 
+			dl_url = str(track['uri'])  + '/download?client_id=' + CLIENT_ID
+			urllib.urlretrieve(dl_url, track_title)
+		# remove break to download the whole playlist
+		break
+
+
 def printTracksInfo(tracks):
 	print "Playlist has %d tracks and they are: " % len(tracks)
 	for track in tracks:
@@ -29,3 +39,5 @@ def printTracksInfo(tracks):
 		print "---------------------------------------------------"
 
 printTracksInfo(getTracks(getPlaylist(createClient(CLIENT_ID), PLAYLIST_URL)))
+
+downloadTrack(getTracks(getPlaylist(createClient(CLIENT_ID), PLAYLIST_URL)))
