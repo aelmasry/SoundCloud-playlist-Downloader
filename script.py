@@ -21,18 +21,25 @@ def getTracks(playlist):
 
 
 def downloadTrack(tracks):
+	counter = 0
+	print "Playlist has %d tracks" % len(tracks)
 	for track in tracks:
 		if track['downloadable']:
-			# track_title = str(track['title']) + '.mp3' 
+			track_title = str(track['title']) + '.mp3' 
 			dl_url = str(track['uri'])  + '/download?client_id=' + CLIENT_ID
+			print "Currently Downloading " + track_title
 			wget.download(dl_url)
+			print "\nsuccess"
+			counter += 1
 		else:
 			print "No files to Download (probably not allowed)"
 		# remove break to download the whole playlist
 		break
+	print "\n\n Successfully downloaded %d tracks" % counter
+		
 
 def printTracksInfo(tracks):
-	print "Playlist has %d tracks and they are: " % len(tracks)
+	print "Playlist has %d tracks and they are: \n\n" % len(tracks)
 	for track in tracks:
 		print "Id: %s" % track['id'] 
 		print "title: %s " % track['title']
@@ -41,7 +48,7 @@ def printTracksInfo(tracks):
 		print "---------------------------------------------------"
 
 # print info about tracks in the list
-# printTracksInfo(getTracks(getPlaylist(createClient(CLIENT_ID), PLAYLIST_URL)))
+printTracksInfo(getTracks(getPlaylist(createClient(CLIENT_ID), PLAYLIST_URL)))
 
 # download tracks
 downloadTrack(getTracks(getPlaylist(createClient(CLIENT_ID), PLAYLIST_URL)))
